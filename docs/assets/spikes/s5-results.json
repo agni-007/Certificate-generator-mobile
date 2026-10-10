@@ -1,0 +1,100 @@
+{
+  "runtime": "v18.19.1",
+  "fixtures": {},
+  "checks": [
+    {
+      "name": "xlsx 5000 rows",
+      "pass": true,
+      "detail": "5000 names in 299 ms"
+    },
+    {
+      "name": "utf-8 BOM CSV",
+      "pass": true,
+      "detail": "encoding=utf-8"
+    },
+    {
+      "name": "Full Name header + missing nan dropped",
+      "pass": true,
+      "detail": "names=5"
+    },
+    {
+      "name": "dedupe case-insensitive",
+      "pass": true,
+      "detail": "5 -> 4"
+    },
+    {
+      "name": "cp1252 CSV decoded",
+      "pass": true,
+      "detail": "encoding=cp1252, jschardet=Windows-1250(0.06)"
+    },
+    {
+      "name": "tab-separated detection",
+      "pass": true,
+      "detail": "delimiter=tab"
+    },
+    {
+      "name": "single multi-line cell split",
+      "pass": true,
+      "detail": "names=[\"Asha\",\"Bharat\",\"Chandra\"]"
+    },
+    {
+      "name": "cleanName NBSP+collapse+NFC",
+      "pass": true,
+      "detail": "A B C|é"
+    }
+  ],
+  "xlsx": {
+    "ms": 298.7,
+    "names": 5000,
+    "headers": [
+      "name",
+      "class",
+      "roll"
+    ]
+  },
+  "bomCsv": {
+    "encoding": "utf-8",
+    "names": [
+      "Asha Nair",
+      "Bharat Rao",
+      "asha nair",
+      "Chandra Das",
+      "María García"
+    ],
+    "deduped": [
+      "Asha Nair",
+      "Bharat Rao",
+      "Chandra Das",
+      "María García"
+    ]
+  },
+  "cp1252": {
+    "encoding": "cp1252",
+    "names": [
+      "José Álvarez",
+      "Müller",
+      "Renée"
+    ],
+    "jschardet": {
+      "encoding": "Windows-1250",
+      "confidence": 0.06431035786033033,
+      "language": "hu",
+      "mimeType": "text/plain"
+    }
+  },
+  "tab": {
+    "delimiter": "tab",
+    "names": [
+      "Asha",
+      "Bharat"
+    ]
+  },
+  "block": {
+    "names": [
+      "Asha",
+      "Bharat",
+      "Chandra"
+    ]
+  },
+  "clean": "A B C|é"
+}

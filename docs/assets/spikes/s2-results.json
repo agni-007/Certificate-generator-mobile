@@ -1,0 +1,136 @@
+{
+  "runtime": "v18.19.1",
+  "ranAt": "2026-10-10T11:21:10.489Z",
+  "jpegTemplate": {
+    "path": "/home/agnivesh/code/certificate-generator-android/spikes/out/s2/template.jpg",
+    "bytes": 3999662,
+    "sizeMB": 3.81
+  },
+  "pdfTemplate": {
+    "path": "/home/agnivesh/code/certificate-generator-android/spikes/out/s2/template.pdf",
+    "bytes": 963
+  },
+  "individualPdfTemplate": {
+    "ms": 9209.288995999843,
+    "perFileMs": 92.09288995999843,
+    "samples": [
+      {
+        "i": 1,
+        "rssKb": 232928
+      },
+      {
+        "i": 11,
+        "rssKb": 258744
+      },
+      {
+        "i": 21,
+        "rssKb": 282880
+      },
+      {
+        "i": 31,
+        "rssKb": 308416
+      },
+      {
+        "i": 41,
+        "rssKb": 332600
+      },
+      {
+        "i": 51,
+        "rssKb": 356592
+      },
+      {
+        "i": 61,
+        "rssKb": 380636
+      },
+      {
+        "i": 71,
+        "rssKb": 404692
+      },
+      {
+        "i": 81,
+        "rssKb": 428780
+      },
+      {
+        "i": 91,
+        "rssKb": 205280
+      },
+      {
+        "i": 100,
+        "rssKb": 205296
+      }
+    ],
+    "maxRssKb": 428780,
+    "peakKb": 430968
+  },
+  "individualJpegTemplate": {
+    "ms": 10353.809082999825,
+    "perFileMs": 103.53809082999825,
+    "samples": [
+      {
+        "i": 1,
+        "rssKb": 205304
+      },
+      {
+        "i": 11,
+        "rssKb": 215896
+      },
+      {
+        "i": 21,
+        "rssKb": 204352
+      },
+      {
+        "i": 31,
+        "rssKb": 203820
+      },
+      {
+        "i": 41,
+        "rssKb": 205852
+      },
+      {
+        "i": 51,
+        "rssKb": 176296
+      },
+      {
+        "i": 61,
+        "rssKb": 180144
+      },
+      {
+        "i": 71,
+        "rssKb": 178732
+      },
+      {
+        "i": 81,
+        "rssKb": 185836
+      },
+      {
+        "i": 91,
+        "rssKb": 179572
+      },
+      {
+        "i": 100,
+        "rssKb": 187584
+      }
+    ],
+    "maxRssKb": 215896,
+    "peakKb": 430968
+  },
+  "merged1": {
+    "ms": 112.87857200019062,
+    "bytes": 5854,
+    "perPageMs": 112.87857200019062,
+    "peakKb": 430968
+  },
+  "merged100": {
+    "ms": 242.0283850003034,
+    "bytes": 35152,
+    "perPageMs": 2.4202838500030337,
+    "peakKb": 430968
+  },
+  "merged500": {
+    "ms": 997.9249449996278,
+    "bytes": 145236,
+    "perPageMs": 1.9958498899992556,
+    "peakKb": 430968
+  },
+  "oneSampleIndividualBytes": 5859
+}

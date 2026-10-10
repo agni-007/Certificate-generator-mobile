@@ -1,0 +1,83 @@
+{
+  "files": 300,
+  "ms": 43.7,
+  "zipBytes": 315402,
+  "entries": 300,
+  "malayalamNameIntact": true,
+  "rssSamples": [
+    {
+      "files": 50,
+      "rssKb": 73644
+    },
+    {
+      "files": 100,
+      "rssKb": 73668
+    },
+    {
+      "files": 150,
+      "rssKb": 73668
+    },
+    {
+      "files": 200,
+      "rssKb": 71736
+    },
+    {
+      "files": 250,
+      "rssKb": 71736
+    },
+    {
+      "files": 300,
+      "rssKb": 71736
+    },
+    {
+      "files": 350,
+      "rssKb": 71736
+    },
+    {
+      "files": 400,
+      "rssKb": 71740
+    },
+    {
+      "files": 450,
+      "rssKb": 71740
+    },
+    {
+      "files": 500,
+      "rssKb": 71740
+    },
+    {
+      "files": 550,
+      "rssKb": 71740
+    },
+    {
+      "files": 600,
+      "rssKb": 71740
+    },
+    {
+      "files": 650,
+      "rssKb": 71740
+    },
+    {
+      "files": 700,
+      "rssKb": 71740
+    },
+    {
+      "files": 750,
+      "rssKb": 71744
+    },
+    {
+      "files": 800,
+      "rssKb": 71744
+    },
+    {
+      "files": 850,
+      "rssKb": 71744
+    },
+    {
+      "files": 900,
+      "rssKb": 71744
+    }
+  ],
+  "peakKb": 73156,
+  "peakBeforeKb": 72480
+}

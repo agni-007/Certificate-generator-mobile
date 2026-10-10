@@ -1,0 +1,91 @@
+{
+  "dpi": 300,
+  "fontSizePt": 37,
+  "runtime": "v18.19.1",
+  "families": [
+    "Noto Sans Malayalam",
+    "Noto Sans Tamil",
+    "Noto Sans Devanagari",
+    "Noto Sans"
+  ],
+  "samples": [
+    {
+      "id": "malayalam-word",
+      "note": "Malayalam — vowel signs + chillu",
+      "text": "മലയാളം",
+      "family": "Noto Sans Malayalam",
+      "pngFile": "out/s3/malayalam-word.png",
+      "pngBytes": 15384,
+      "widthPt": 159.02,
+      "heightPt": 46.08,
+      "baselinePx": 133.2
+    },
+    {
+      "id": "malayalam-conjunct",
+      "note": "Malayalam — conjuncts (st + ra + ii, ksha)",
+      "text": "സ്ത്രീ ക്ഷേത്രം",
+      "family": "Noto Sans Malayalam",
+      "pngFile": "out/s3/malayalam-conjunct.png",
+      "pngBytes": 23757,
+      "widthPt": 258.83,
+      "heightPt": 46.08,
+      "baselinePx": 133.2
+    },
+    {
+      "id": "tamil-word",
+      "note": "Tamil — pulli + vowel sign",
+      "text": "தமிழ்",
+      "family": "Noto Sans Tamil",
+      "pngFile": "out/s3/tamil-word.png",
+      "pngBytes": 10107,
+      "widthPt": 103.7,
+      "heightPt": 45.84,
+      "baselinePx": 134.13
+    },
+    {
+      "id": "tamil-conjunct",
+      "note": "Tamil — sri ligature + conjunct",
+      "text": "ஸ்ரீ க்ஷேத்திரம்",
+      "family": "Noto Sans Tamil",
+      "pngFile": "out/s3/tamil-conjunct.png",
+      "pngBytes": 27286,
+      "widthPt": 286.92,
+      "heightPt": 45.84,
+      "baselinePx": 134.13
+    },
+    {
+      "id": "devanagari-word",
+      "note": "Devanagari — vowel signs",
+      "text": "हिन्दी",
+      "family": "Noto Sans Devanagari",
+      "pngFile": "out/s3/devanagari-word.png",
+      "pngBytes": 7827,
+      "widthPt": 69.48,
+      "heightPt": 48.24,
+      "baselinePx": 138.13
+    },
+    {
+      "id": "devanagari-conjunct",
+      "note": "Devanagari — conjuncts (ksha, shri)",
+      "text": "क्षत्रिय श्री",
+      "family": "Noto Sans Devanagari",
+      "pngFile": "out/s3/devanagari-conjunct.png",
+      "pngBytes": 11806,
+      "widthPt": 123.16,
+      "heightPt": 48.24,
+      "baselinePx": 138.13
+    },
+    {
+      "id": "latin",
+      "note": "Latin control",
+      "text": "Aarav Sharma",
+      "family": "Noto Sans",
+      "pngFile": "out/s3/latin.png",
+      "pngBytes": 17467,
+      "widthPt": 242.67,
+      "heightPt": 50.4,
+      "baselinePx": 164.8
+    }
+  ],
+  "totalMs": 1677
+}

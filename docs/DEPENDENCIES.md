@@ -29,8 +29,11 @@ alternative considered. Only permissive (MIT/BSD/ISC/Apache-2.0) and OFL-1.1 fon
 | expo-localization | 57.0.4 | MIT | Locale detection for i18n. | — |
 | xlsx (SheetJS) | 0.18.5 | Apache-2.0 | Robust `.xlsx` parsing offline. (Registry copy; CDN tarball is newer — see ADR-0006.) | exceljs |
 | papaparse | 5.7.0 | MIT | Robust CSV parsing. | custom parser |
-| jschardet | 4.0.0 | LGPL-2.1+ | Charset detection for legacy CSVs. **Licence review required** (LGPL dynamic link OK, but flagged) — see ADR-0006. | small custom UTF-8/cp1252 fallback |
-| fflate | 0.8.3 | MIT | Pure-JS streaming ZIP fallback (spike S4). | native zipper |
+| fflate | 0.8.3 | MIT | Pure-JS streaming ZIP fallback (spike S4, ADR-0005). | native zipper |
+
+> **Removed:** `jschardet@4.0.0` (LGPL-2.1+) was evaluated in spike S5 but is **not shipped**:
+> it misdetected cp1252 (confidence 0.06) and its licence conflicts with NFR-12. The custom
+> UTF-8-strict → cp1252 → latin-1 fallback in `src/core` replaces it (ADR-0006).
 
 ## Dev / test
 
@@ -40,6 +43,16 @@ alternative considered. Only permissive (MIT/BSD/ISC/Apache-2.0) and OFL-1.1 fon
 | ts-jest | 29.4.14 | MIT | TypeScript transform for Jest. |
 | typescript-eslint | pinned at Phase 1 | MIT | Strict TS lint rules. |
 | prettier | pinned at Phase 1 | MIT | Formatting. |
+
+## Phase 0 spike-only dev dependencies (`spikes/package.json`, never shipped)
+
+| Package | Version | Licence | Why |
+|---|---|---|---|
+| canvaskit-wasm | 0.42.0 | BSD-3-Clause | Skia (WASM) proxy to validate complex-script shaping without a device. |
+| harfbuzzjs | 1.6.3 | MIT (HarfBuzz "Old MIT") | Independent glyph-level shaping verification (spike S3). |
+| jpeg-js | 0.4.4 | BSD-3-Clause | Encode a realistic multi-MB JPEG template fixture (CanvasKit's JPEG encoder is absent). |
+| jschardet | 4.0.0 | LGPL-2.1+ | Evaluated then rejected (spike S5); not shipped. |
+| pdfjs-dist | 6.4.299 (planned dev) | Apache-2.0 | Phase 2 parity tests parse output PDF text positions. Requires Node ≥22.13 (CI Node 24). |
 
 ## Fonts (all OFL-1.1, bundled)
 
