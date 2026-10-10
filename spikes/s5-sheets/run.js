@@ -11,10 +11,33 @@ const { outPath, nowMs, writeJson } = require("../lib/util");
 
 const MISSING = new Set(["nan", "none", "null", "nat"]);
 const CP1252 = {
-  0x80: "€", 0x82: "‚", 0x83: "ƒ", 0x84: "„", 0x85: "…", 0x86: "†", 0x87: "‡",
-  0x88: "ˆ", 0x89: "‰", 0x8a: "Š", 0x8b: "‹", 0x8c: "Œ", 0x8e: "Ž", 0x91: "‘",
-  0x92: "’", 0x93: "“", 0x94: "”", 0x95: "•", 0x96: "–", 0x97: "—", 0x98: "˜",
-  0x99: "™", 0x9a: "š", 0x9b: "›", 0x9c: "œ", 0x9e: "ž", 0x9f: "Ÿ",
+  0x80: "€",
+  0x82: "‚",
+  0x83: "ƒ",
+  0x84: "„",
+  0x85: "…",
+  0x86: "†",
+  0x87: "‡",
+  0x88: "ˆ",
+  0x89: "‰",
+  0x8a: "Š",
+  0x8b: "‹",
+  0x8c: "Œ",
+  0x8e: "Ž",
+  0x91: "‘",
+  0x92: "’",
+  0x93: "“",
+  0x94: "”",
+  0x95: "•",
+  0x96: "–",
+  0x97: "—",
+  0x98: "˜",
+  0x99: "™",
+  0x9a: "š",
+  0x9b: "›",
+  0x9c: "œ",
+  0x9e: "ž",
+  0x9f: "Ÿ",
 };
 
 function decodeUtf8Strict(bytes) {
@@ -57,7 +80,11 @@ function isMissing(s) {
 const NAME_HEADERS = ["name", "names", "full name", "fullname", "student name"];
 
 function selectNameColumn(headers) {
-  const norm = headers.map((h) => String(h == null ? "" : h).trim().toLowerCase());
+  const norm = headers.map((h) =>
+    String(h == null ? "" : h)
+      .trim()
+      .toLowerCase(),
+  );
   for (const w of NAME_HEADERS) {
     const i = norm.indexOf(w);
     if (i !== -1) return i;
@@ -66,7 +93,13 @@ function selectNameColumn(headers) {
 }
 
 function headerLooksReal(headers) {
-  return headers.some((h) => NAME_HEADERS.includes(String(h == null ? "" : h).trim().toLowerCase()));
+  return headers.some((h) =>
+    NAME_HEADERS.includes(
+      String(h == null ? "" : h)
+        .trim()
+        .toLowerCase(),
+    ),
+  );
 }
 
 // Select the name column (not all columns), split multi-line cells, clean, drop missing.
@@ -113,7 +146,12 @@ function parseCsv(bytes) {
 }
 
 function parseXlsx(bytes) {
-  const wb = XLSX.read(bytes, { type: "buffer", sheetRows: 100000, cellText: true, cellDates: false });
+  const wb = XLSX.read(bytes, {
+    type: "buffer",
+    sheetRows: 100000,
+    cellText: true,
+    cellDates: false,
+  });
   const sheet = wb.Sheets[wb.SheetNames[0]];
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: "" });
   return extractNames(rows);
@@ -198,41 +236,77 @@ function encodeCp1252(str) {
   let r = parseXlsx(bytes);
   let ms = nowMs() - t0;
   results.xlsx = { ms: +ms.toFixed(1), names: r.names.length, headers: r.headers };
-  record("xlsx 5000 rows", r.names.length === 5000 && r.names[0] === "Student 0", `${r.names.length} names in ${ms.toFixed(0)} ms`);
+  record(
+    "xlsx 5000 rows",
+    r.names.length === 5000 && r.names[0] === "Student 0",
+    `${r.names.length} names in ${ms.toFixed(0)} ms`,
+  );
 
   // BOM CSV + full name header + dedupe + missing
   const bom = parseCsv(fs.readFileSync(fixtures.bomCsv));
   const bomDeduped = dedupe(bom.names);
   results.bomCsv = { encoding: bom.encoding, names: bom.names, deduped: bomDeduped };
-  record("utf-8 BOM CSV", bom.encoding === "utf-8" && !bom.names[0].includes("\uFEFF") && bom.names.includes("María García"), `encoding=${bom.encoding}`);
-  record("Full Name header + missing nan dropped", !bom.names.some((n) => /^nan$/i.test(n)), `names=${bom.names.length}`);
-  record("dedupe case-insensitive", bom.names.length === 5 && bomDeduped.length === 4, `${bom.names.length} -> ${bomDeduped.length}`);
+  record(
+    "utf-8 BOM CSV",
+    bom.encoding === "utf-8" &&
+      !bom.names[0].includes("\uFEFF") &&
+      bom.names.includes("María García"),
+    `encoding=${bom.encoding}`,
+  );
+  record(
+    "Full Name header + missing nan dropped",
+    !bom.names.some((n) => /^nan$/i.test(n)),
+    `names=${bom.names.length}`,
+  );
+  record(
+    "dedupe case-insensitive",
+    bom.names.length === 5 && bomDeduped.length === 4,
+    `${bom.names.length} -> ${bomDeduped.length}`,
+  );
 
   // cp1252
   const cp = parseCsv(fs.readFileSync(fixtures.cp1252Csv));
   const det = jschardet.detect(fs.readFileSync(fixtures.cp1252Csv));
   results.cp1252 = { encoding: cp.encoding, names: cp.names, jschardet: det };
-  record("cp1252 CSV decoded", cp.encoding === "cp1252" && cp.names.includes("José Álvarez") && cp.names.includes("Müller"), `encoding=${cp.encoding}, jschardet=${det.encoding}(${det.confidence && det.confidence.toFixed(2)})`);
+  record(
+    "cp1252 CSV decoded",
+    cp.encoding === "cp1252" && cp.names.includes("José Álvarez") && cp.names.includes("Müller"),
+    `encoding=${cp.encoding}, jschardet=${det.encoding}(${det.confidence && det.confidence.toFixed(2)})`,
+  );
 
   // tab separated
   const tabBytes = fs.readFileSync(fixtures.tabTsv);
   const tab = parseCsv(tabBytes);
   results.tab = { delimiter: tab.delimiter, names: tab.names };
-  record("tab-separated detection", looksTabSeparated(tabBytes) && tab.delimiter === "tab", `delimiter=${tab.delimiter}`);
+  record(
+    "tab-separated detection",
+    looksTabSeparated(tabBytes) && tab.delimiter === "tab",
+    `delimiter=${tab.delimiter}`,
+  );
 
   // single multi-line cell
   const block = parseCsv(fs.readFileSync(fixtures.blockCsv));
   results.block = { names: block.names };
-  record("single multi-line cell split", block.names.length === 3, `names=${JSON.stringify(block.names)}`);
+  record(
+    "single multi-line cell split",
+    block.names.length === 3,
+    `names=${JSON.stringify(block.names)}`,
+  );
 
   // NFC + NBSP
   const messy = cleanName("  A\u00a0\u00a0B   C  ") + "|" + cleanName("e\u0301".normalize("NFD"));
   results.clean = messy;
-  record("cleanName NBSP+collapse+NFC", messy.startsWith("A B C|") && messy.split("|")[1] === "é", messy);
+  record(
+    "cleanName NBSP+collapse+NFC",
+    messy.startsWith("A B C|") && messy.split("|")[1] === "é",
+    messy,
+  );
 
   writeJson(path.join(dir, "results.json"), results);
   const failed = results.checks.filter((c) => !c.pass).length;
-  console.log(`\n=== S5 parsing spike: ${results.checks.length - failed}/${results.checks.length} checks passed ===\n`);
+  console.log(
+    `\n=== S5 parsing spike: ${results.checks.length - failed}/${results.checks.length} checks passed ===\n`,
+  );
   process.exit(failed ? 1 : 0);
 })().catch((e) => {
   console.error("S5 FAILED:", e);

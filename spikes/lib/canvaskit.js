@@ -6,8 +6,7 @@ let _ck = null;
 async function initCanvasKit() {
   if (_ck) return _ck;
   _ck = await CanvasKitInit({
-    locateFile: (file) =>
-      path.join(__dirname, "..", "node_modules", "canvaskit-wasm", "bin", file),
+    locateFile: (file) => path.join(__dirname, "..", "node_modules", "canvaskit-wasm", "bin", file),
   });
   return _ck;
 }

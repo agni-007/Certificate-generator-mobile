@@ -89,3 +89,45 @@ taken from `implementation.md` Section 14 is recorded here.
   noting Node evidence (~9–10 s for 100 certs) and deferring device confirmation to Phases 1/5/6/9.
 - **Consequences:** if Hermes is significantly slower, revise here with measurements (do not silently
   change the stack).
+
+## ADR-0009: Pin Expo SDK 57 exactly; no caret ranges in the app
+
+- **Context:** offline reproducibility and a stable native toolchain; Expo's `bundledNativeModules`
+  is authoritative for `expo-*` versions.
+- **Options tried:** ranges (`^`) vs exact pins; NativeWind 4 (Tailwind 3.4.19) vs NativeWind 5 RC.
+- **Decision:** exact pins for all runtime/dev deps (`expo@57.0.27`, `react@19.2.3`,
+  `react-native@0.86.3`, `expo-router@57.0.25`, `typescript@6.0.3`, `@shopify/react-native-skia@2.6.2`,
+  `nativewind@4.2.7` + `tailwindcss@3.4.19`, `pdf-lib@1.17.1`, …). Commit `package-lock.json`.
+- **Consequences:** deterministic installs. `react-test-renderer` pinned to `19.2.3` to match
+  `react`'s peer range. `newArchEnabled` dropped from `app.config.ts` (always on in SDK 57).
+
+## ADR-0010: TypeScript 6 requires explicit `types` and forbids `baseUrl`
+
+- **Context:** `typescript@6.0.3` (Expo SDK 57 template) deprecates `baseUrl` (TS5101) and no longer
+  auto-includes `node_modules/@types/*` globally.
+- **Options tried:** keeping `baseUrl` (fails typecheck); relying on auto-inclusion (breaks `node:fs`,
+  `describe`, `console`).
+- **Decision:** remove `baseUrl` (paths resolve relative to tsconfig), set
+  `"types": ["node", "jest"]`; `tsconfig.jest.json` also sets `"ignoreDeprecations": "6.0"` for its
+  CommonJS/`node` resolution.
+- **Consequences:** typecheck is clean. Any new ambient type package must be added to `types`.
+
+## ADR-0011: Offline guarantee = offline-audit + production manifest block
+
+- **Context:** "no network" must be enforced, not just asserted.
+- **Options tried:** manifest-only vs audit + manifest.
+- **Decision:** `scripts/offline-audit.ts` (run in CI) fails on
+  `fetch`/`XMLHttpRequest`/`WebSocket`/`sendBeacon`/`axios`, telemetry SDK names, OTA/`expo-updates`,
+  remote URLs, and forbidden dependencies; `app.config.ts` blocks
+  `INTERNET`/`ACCESS_NETWORK_STATE` when `EAS_BUILD_PROFILE === "production"`, and
+  `updates.enabled: false`.
+- **Consequences:** known-safe URL literals go in `scripts/offline-audit.allowlist.json`.
+
+## ADR-0012: Testing = Jest 30 with two projects (core `ts-jest`, app `jest-expo`)
+
+- **Context:** core must run headless on Node (no RN), UI needs a React Native environment.
+- **Options tried:** single project vs split.
+- **Decision:** `jest.config.js` defines `core` (ts-jest, `node` env, `src/core/**/*.test.ts`) and
+  `app` (jest-expo, `src/ui/**/*.test.tsx`); module aliases mapped; `jest.setup.ts` mocks
+  `react-native-safe-area-context`. RNTL v14 `render` is awaited.
+- **Consequences:** `npm test` runs both; `npm run test:core` is the CI core gate.

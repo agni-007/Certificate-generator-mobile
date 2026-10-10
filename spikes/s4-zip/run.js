@@ -51,7 +51,11 @@ function zipToDisk(files, zipPath) {
     "certificate_untyped.pdf",
   ];
   const files = [];
-  for (let i = 0; i < N; i++) files.push({ name: `certificates/${names[i % names.length].replace(".pdf", `_${i}.pdf`)}`, bytes: pdfSamples[i % pdfSamples.length] });
+  for (let i = 0; i < N; i++)
+    files.push({
+      name: `certificates/${names[i % names.length].replace(".pdf", `_${i}.pdf`)}`,
+      bytes: pdfSamples[i % pdfSamples.length],
+    });
 
   const zipPath = path.join(dir, "certificates.zip");
   const peakBefore = readProcStatus().peakKb;
@@ -78,8 +82,12 @@ function zipToDisk(files, zipPath) {
   writeJson(path.join(dir, "results.json"), results);
 
   console.log("\n=== S4 ZIP spike (fflate streaming fallback) ===");
-  console.log(`  ${N} files, ${(size / 1024).toFixed(0)} KB zip, ${ms.toFixed(0)} ms (${(N / (ms / 1000)).toFixed(0)} files/s)`);
-  console.log(`  entries after unzip: ${entries.length}, Malayalam filename intact: ${malayalamOk}`);
+  console.log(
+    `  ${N} files, ${(size / 1024).toFixed(0)} KB zip, ${ms.toFixed(0)} ms (${(N / (ms / 1000)).toFixed(0)} files/s)`,
+  );
+  console.log(
+    `  entries after unzip: ${entries.length}, Malayalam filename intact: ${malayalamOk}`,
+  );
   console.log(`  RSS samples (kB): ${samples.map((s) => s.files + ":" + s.rssKb).join("  ")}`);
   console.log(`  peak ${(results.peakKb / 1024).toFixed(1)} MB\n`);
 })().catch((e) => {

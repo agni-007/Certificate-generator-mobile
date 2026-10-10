@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+.expo
+android
+ios
+spikes/out
+docs/assets/spikes
+*.md
+package-lock.json
+LICENSE

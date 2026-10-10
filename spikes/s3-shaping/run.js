@@ -23,12 +23,42 @@ const FONTS = [
 ];
 
 const SAMPLES = [
-  { id: "malayalam-word", family: "Noto Sans Malayalam", text: "മലയാളം", note: "Malayalam — vowel signs + chillu" },
-  { id: "malayalam-conjunct", family: "Noto Sans Malayalam", text: "സ്ത്രീ ക്ഷേത്രം", note: "Malayalam — conjuncts (st + ra + ii, ksha)" },
-  { id: "tamil-word", family: "Noto Sans Tamil", text: "தமிழ்", note: "Tamil — pulli + vowel sign" },
-  { id: "tamil-conjunct", family: "Noto Sans Tamil", text: "ஸ்ரீ க்ஷேத்திரம்", note: "Tamil — sri ligature + conjunct" },
-  { id: "devanagari-word", family: "Noto Sans Devanagari", text: "हिन्दी", note: "Devanagari — vowel signs" },
-  { id: "devanagari-conjunct", family: "Noto Sans Devanagari", text: "क्षत्रिय श्री", note: "Devanagari — conjuncts (ksha, shri)" },
+  {
+    id: "malayalam-word",
+    family: "Noto Sans Malayalam",
+    text: "മലയാളം",
+    note: "Malayalam — vowel signs + chillu",
+  },
+  {
+    id: "malayalam-conjunct",
+    family: "Noto Sans Malayalam",
+    text: "സ്ത്രീ ക്ഷേത്രം",
+    note: "Malayalam — conjuncts (st + ra + ii, ksha)",
+  },
+  {
+    id: "tamil-word",
+    family: "Noto Sans Tamil",
+    text: "தமிழ்",
+    note: "Tamil — pulli + vowel sign",
+  },
+  {
+    id: "tamil-conjunct",
+    family: "Noto Sans Tamil",
+    text: "ஸ்ரீ க்ஷேத்திரம்",
+    note: "Tamil — sri ligature + conjunct",
+  },
+  {
+    id: "devanagari-word",
+    family: "Noto Sans Devanagari",
+    text: "हिन्दी",
+    note: "Devanagari — vowel signs",
+  },
+  {
+    id: "devanagari-conjunct",
+    family: "Noto Sans Devanagari",
+    text: "क्षत्रिय श्री",
+    note: "Devanagari — conjuncts (ksha, shri)",
+  },
   { id: "latin", family: "Noto Sans", text: "Aarav Sharma", note: "Latin control" },
 ];
 
@@ -76,7 +106,13 @@ function renderParagraph(CK, mgr, family, text, color) {
   const CK = await initCanvasKit();
   const { mgr, families } = loadFontMgr(CK);
   const dir = outPath("s3");
-  const results = { dpi: DPI, fontSizePt: FONT_SIZE_PT, runtime: process.version, families, samples: [] };
+  const results = {
+    dpi: DPI,
+    fontSizePt: FONT_SIZE_PT,
+    runtime: process.version,
+    families,
+    samples: [],
+  };
   const t0 = nowMs();
 
   const embedded = [];
@@ -121,7 +157,9 @@ function renderParagraph(CK, mgr, family, text, color) {
 
   console.log("\n=== S3 shaping spike (CanvasKit/Skia, " + DPI + " DPI) ===");
   for (const s of results.samples) {
-    console.log(`  ${s.id.padEnd(20)} ${s.widthPt.toFixed(1).padStart(7)} x ${s.heightPt.toFixed(1).padStart(6)} pt   ${s.text}`);
+    console.log(
+      `  ${s.id.padEnd(20)} ${s.widthPt.toFixed(1).padStart(7)} x ${s.heightPt.toFixed(1).padStart(6)} pt   ${s.text}`,
+    );
   }
   console.log(`  total ${results.totalMs} ms; PNGs + shaped-samples.pdf in spikes/out/s3/\n`);
 })().catch((e) => {
