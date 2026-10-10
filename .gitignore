@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Native build output
+android/
+ios/
+!android/app/src/**
+!ios/*.xcworkspace/**
+
+# Metro / Jest
+.metro-health-check*
+jest-results/
+coverage/
+
+# Build artefacts
+build/
+*.tsbuildinfo
+
+# Spike outputs (generated, not committed except small fixtures/screenshots)
+spikes/**/out/
+spikes/**/*.tmp
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
