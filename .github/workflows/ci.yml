@@ -38,5 +38,8 @@ jobs:
       - name: Core tests
         run: npm run test:core
 
+      - name: Placement parity (pdf.js)
+        run: npm run test:parity
+
       - name: Offline audit
         run: npm run offline-audit

@@ -131,3 +131,53 @@ taken from `implementation.md` Section 14 is recorded here.
   `app` (jest-expo, `src/ui/**/*.test.tsx`); module aliases mapped; `jest.setup.ts` mocks
   `react-native-safe-area-context`. RNTL v14 `render` is awaited.
 - **Consequences:** `npm test` runs both; `npm run test:core` is the CI core gate.
+
+## ADR-0013: Phase 2 core engine + placement parity gate
+
+- **Context:** the pure core (validation, names, filename, style, geometry, pdf pipelines) must run
+  in Node and match the web app's placement to ≤ 0.5 pt.
+- **Options tried:** Jest-only assertions vs an independent PDF parser.
+- **Decision:** keep `src/core` RN-free with 85 % coverage on `src/core`; add `scripts/parity-check.ts`
+  (`npm run test:parity`) which parses generated PDFs with `pdfjs-dist` and asserts
+  `placeText` coordinates equal the PDF text-item transform within 0.5 pt for left/center/right.
+  The vector and merged pipelines share `placeText`; a single template page is embedded once.
+- **Consequences:** CI runs the parity check on Node 24 (the local machine's Node 18 runs it behind a
+  `Promise.withResolvers` shim). Quality gate: `test:core` green + coverage ≥ 85 %.
+
+## ADR-0014: Bundled OFL font set (Phase 3)
+
+- **Context:** Latin + 8 Indic scripts must shape correctly offline, with permissive licences.
+- **Options tried:** system fonts (unavailable/nondeterministic) vs bundling a curated OFL set.
+- **Decision:** bundle the Noto family (Sans/Serif/Mono + Malayalam, Tamil, Devanagari, Bengali,
+  Telugu, Kannada, Gujarati, Gurmukhi) and Great Vibes, all OFL-1.1. `src/core/fontCatalog.ts` holds
+  pure metadata (id, family, scripts, file name); `src/platform/fontRegistry.ts` maps file names to
+  Metro assets and persists user imports under `documents/fonts/`. Licence files live in
+  `src/assets/fonts/LICENSES/`.
+- **Consequences:** the app ships ~2.9 MB of fonts. A script list (not a parsed cmap) drives
+  `fontSupports` for bundled fonts; custom fonts are trusted and routed through the shaped pipeline
+  when they contain complex characters.
+
+## ADR-0015: Shaped pipeline wiring and overlay geometry
+
+- **Context:** the Skia-shaped name must land in the PDF at the same position the vector pipeline
+  would place text.
+- **Options tried:** re-implement placement for images vs reuse `placeText`.
+- **Decision:** `core/shaping.ts` decides per name (`needsShaping`); `core/pdf/overlay.ts` reuses
+  `placeText` with the measured width and aligns the PNG's alphabetic baseline
+  (`yLower = yPdf - heightPt + baselinePt`). `renderCertificatePdf`/`renderMergedPdf` accept an
+  optional overlay. The `ShapedTextRenderer` port is implemented by
+  `src/platform/shapedText.ts` using Skia `Surface.MakeOffscreen` + `TypefaceFontProvider`.
+- **Consequences:** both pipelines share one geometry source of truth, so parity holds for overlays.
+  On-device verification of Skia rasterisation and coloured-baseline placement remains a Phase 3
+  device task (no device in this environment).
+
+## ADR-0016: Custom font import validation without a cmap parser
+
+- **Context:** FR-14 requires `.ttf`/`.otf` import; `fontSupports` needs coverage knowledge.
+- **Options tried:** parse the `cmap` for exact coverage vs validate + parse the `name` table only.
+- **Decision:** `src/core/fontFile.ts` validates the sfnt magic (`00 01 00 00`, `OTTO`, `true`,
+  `ttcf`) and reads family/subfamily/full names from the `name` table. Bundled fonts use their
+  declared script lists; custom fonts have unknown coverage and are treated as shaped-pipeline
+  candidates for complex scripts, while Latin custom text still embeds via pdf-lib.
+- **Consequences:** imports are rejected early on corrupt files and named in the UI. A cmap-based
+  coverage check is backlog; for now Skia renders missing glyphs as tofu rather than throwing.

@@ -1,0 +1,33 @@
+Bundled fonts and licences
+==========================
+
+All fonts bundled in `src/assets/fonts/` are licensed under the SIL Open Font
+License 1.1 (OFL-1.1), a permissive licence compatible with the app's NFR-12
+(no copyleft in the shipped binary). Full licence texts are in this directory.
+
+Noto family (Noto Sans, Noto Sans Mono, Noto Serif, Noto Sans <script>)
+  Copyright 2012-2025 Google LLC / the Noto project authors.
+  Licence: OFL-1.1 (see OFL-Noto.txt).
+  Source: https://github.com/notofonts/notofonts.github.io (fetched 2026-10-10).
+
+  - NotoSerif-Regular.ttf               Noto Serif (Latin serif)
+  - NotoSans-Regular.ttf                Noto Sans (Latin sans)
+  - NotoSansMono-Regular.ttf            Noto Sans Mono (Latin monospace)
+  - NotoSansMalayalam-Regular.ttf       Noto Sans Malayalam
+  - NotoSansTamil-Regular.ttf           Noto Sans Tamil
+  - NotoSansDevanagari-Regular.ttf      Noto Sans Devanagari
+  - NotoSansBengali-Regular.ttf         Noto Sans Bengali
+  - NotoSansTelugu-Regular.ttf          Noto Sans Telugu
+  - NotoSansKannada-Regular.ttf         Noto Sans Kannada
+  - NotoSansGujarati-Regular.ttf        Noto Sans Gujarati
+  - NotoSansGurmukhi-Regular.ttf        Noto Sans Gurmukhi
+
+Great Vibes
+  Copyright 2011 The Great Vibes Project Authors
+  (https://github.com/googlefonts/great-vibes).
+  Licence: OFL-1.1 (see OFL-GreatVibes.txt).
+  Source: https://github.com/google/fonts/tree/main/ofl/greatvibes (fetched 2026-10-10).
+
+  - GreatVibes-Regular.ttf              Great Vibes (Latin calligraphic)
+
+User-imported fonts are the user's responsibility and remain on-device only.

@@ -10,6 +10,14 @@ const moduleNameMapper = {
 
 /** @type {import('jest').Config} */
 module.exports = {
+  coverageThreshold: {
+    global: {
+      lines: 85,
+      statements: 85,
+      functions: 85,
+      branches: 75,
+    },
+  },
   projects: [
     {
       displayName: { name: "core", color: "blue" },
@@ -18,6 +26,7 @@ module.exports = {
       testEnvironment: "node",
       testMatch: ["<rootDir>/src/core/**/*.test.ts"],
       moduleNameMapper,
+      collectCoverageFrom: ["<rootDir>/src/core/**/*.ts", "!<rootDir>/src/core/**/*.test.ts"],
       transform: {
         "^.+\\.tsx?$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.jest.json" }],
       },

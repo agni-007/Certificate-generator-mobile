@@ -1,0 +1,60 @@
+{
+  "_comment": "Expected placement numbers derived by hand from the web-app formula in implementation.md Section 7.1 (baseline_from_top = pageH*(y/100) + fontSize/3; yPdf = pageH - baselineFromTop). Parity tolerance is 0.5 pt.",
+  "page": { "widthPt": 595.28, "heightPt": 841.89 },
+  "cases": [
+    {
+      "id": "default-center",
+      "x": 50,
+      "y": 52,
+      "fontSize": 37,
+      "textWidth": 200,
+      "alignment": "center",
+      "expected": { "x": 197.64, "baselineFromTop": 450.1161333, "yPdf": 391.7738667 }
+    },
+    {
+      "id": "left-top-corner",
+      "x": 0,
+      "y": 0,
+      "fontSize": 37,
+      "textWidth": 200,
+      "alignment": "left",
+      "expected": { "x": 0, "baselineFromTop": 12.3333333, "yPdf": 829.5566667 }
+    },
+    {
+      "id": "right-middle",
+      "x": 100,
+      "y": 50,
+      "fontSize": 37,
+      "textWidth": 200,
+      "alignment": "right",
+      "expected": { "x": 395.28, "baselineFromTop": 433.2783333, "yPdf": 408.6116667 }
+    },
+    {
+      "id": "center-clamp-left-and-bottom",
+      "x": 0,
+      "y": 100,
+      "fontSize": 200,
+      "textWidth": 600,
+      "alignment": "center",
+      "expected": { "x": 0, "baselineFromTop": 908.5566667, "yPdf": -66.6666667 }
+    },
+    {
+      "id": "center-bottom-right",
+      "x": 100,
+      "y": 0,
+      "fontSize": 6,
+      "textWidth": 0,
+      "alignment": "center",
+      "expected": { "x": 595.28, "baselineFromTop": 2, "yPdf": 839.89 }
+    },
+    {
+      "id": "left-zero-width",
+      "x": 50,
+      "y": 52,
+      "fontSize": 37,
+      "textWidth": 0,
+      "alignment": "left",
+      "expected": { "x": 297.64, "baselineFromTop": 450.1161333, "yPdf": 391.7738667 }
+    }
+  ]
+}

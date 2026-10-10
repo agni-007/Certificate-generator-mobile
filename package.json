@@ -20,6 +20,7 @@
     "test": "jest",
     "test:core": "jest --selectProjects core",
     "test:core:cov": "jest --selectProjects core --coverage",
+    "test:parity": "tsx scripts/parity-check.ts",
     "offline-audit": "tsx scripts/offline-audit.ts",
     "e2e": "maestro test e2e"
   },

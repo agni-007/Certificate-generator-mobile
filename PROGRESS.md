@@ -1,7 +1,7 @@
 # Progress log
 
-## Current phase: 2 — Core engine (next)
-## Next task: Phase 2.1 — pure-TS text/layout model + unit tests in `src/core/`
+## Current phase: 3 — Fonts and shaped pipeline
+## Next task: Phase 3 device pass — verify Skia shaping + overlay placement on Android/iOS, then Phase 4 (storage/state)
 
 > Resume point for a new session. Newest entries at the bottom.
 
@@ -70,3 +70,33 @@
   - `newArchEnabled` removed (New Architecture is always on in SDK 57).
   - `pdfjs-dist` parity tests still deferred to CI (needs Node ≥22.13).
 - Decisions logged: docs/DECISIONS.md#adr-0009-… (SDK 57 pinning, TS 6 types, offline-audit)
+
+### 2026-10-10 — Phase 2: Core engine (pure TS)
+- Changes:
+  - `src/core/`: `validation.ts` (extension/magic/size), `names/*` (clean, dedupe, parseText,
+    parseCsv, parseXlsx, column select, tab detection, limits, charset fallback), `filename.ts`,
+    `style.ts`, `geometry.ts`, `math.ts`, `pdf/*` (vector, merged, imageToPdf, draw, template,
+    pageSize, fonts).
+  - `scripts/parity-check.ts` + `scripts/parity-fixtures/` (pdf.js placement parity).
+  - Quality gate: `jest.config.js` coverage threshold (85 % lines/stmts/funcs, 75 % branches);
+    CI runs `test:parity`; `package.json` adds `test:parity`.
+- Verified (Node 18.19.1 + shim): `test:core` ✅ (111 tests, 97 % coverage), `test:parity` ✅
+  (3/3 alignments ≤ 0.5 pt), `typecheck` ✅, `lint` ✅, `offline-audit` ✅.
+- Decisions logged: docs/DECISIONS.md#adr-0013
+
+### 2026-10-10 — Phase 3: Fonts and shaped pipeline
+- Changes:
+  - Bundled 12 OFL fonts under `src/assets/fonts/` + `LICENSES/` (`OFL-Noto.txt`,
+    `OFL-GreatVibes.txt`, `NOTICE.txt`): Noto Serif/Sans/Mono, Great Vibes, and Noto Sans for
+    Malayalam/Tamil/Devanagari/Bengali/Telugu/Kannada/Gujarati/Gurmukhi.
+  - `src/core/shaping.ts` (script detection, `needsShaping`, coverage), `src/core/fontCatalog.ts`
+    (bundled font metadata + `fontSupports`), `src/core/fontFile.ts` (sfnt magic + `name`-table
+    parser), `src/core/pdf/overlay.ts` (shaped PNG embedding sharing `placeText`); vector/merged
+    renderers accept an optional overlay.
+  - Platform adapters: `src/platform/fontRegistry.ts` (Metro assets + sandbox imports) and
+    `src/platform/shapedText.ts` (Skia offscreen paragraph → transparent PNG).
+- Verified (Node 18.19.1): `npm test` ✅ (13 suites / 146 tests), `test:core:cov` ✅ (~97 %),
+  `typecheck` ✅, `lint` ✅, `format:check` ✅, `test:parity` ✅, `offline-audit` ✅ (63 files).
+- Open issues: on-device Skia rasterisation, coloured-baseline alignment and S1/S6 remain blocked
+  (no device). A cmap-based custom-font coverage check is backlog (ADR-0016).
+- Decisions logged: docs/DECISIONS.md#adr-0014 … #adr-0016

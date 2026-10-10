@@ -54,7 +54,25 @@ alternative considered. Only permissive (MIT/BSD/ISC/Apache-2.0) and OFL-1.1 fon
 | jschardet | 4.0.0 | LGPL-2.1+ | Evaluated then rejected (spike S5); not shipped. |
 | pdfjs-dist | 6.4.299 (planned dev) | Apache-2.0 | Phase 2 parity tests parse output PDF text positions. Requires Node ≥22.13 (CI Node 24). |
 
-## Fonts (all OFL-1.1, bundled)
+## Fonts (all OFL-1.1, bundled, Phase 3)
 
-Added in Phase 3; licences stored in `src/assets/fonts/LICENSES/`. Noto Sans family for Malayalam,
-Tamil, Devanagari, Bengali, Telugu, Kannada, Gujarati, Gurmukhi + Latin display fonts.
+Licence texts and source attribution: `src/assets/fonts/LICENSES/` (see `NOTICE.txt`).
+
+| Family | File | Scripts | Role |
+|---|---|---|---|
+| Noto Serif | `NotoSerif-Regular.ttf` | Latin | serif body |
+| Noto Sans | `NotoSans-Regular.ttf` | Latin | sans body |
+| Great Vibes | `GreatVibes-Regular.ttf` | Latin | calligraphic |
+| Noto Sans Mono | `NotoSansMono-Regular.ttf` | Latin | monospace |
+| Noto Sans Malayalam | `NotoSansMalayalam-Regular.ttf` | Malayalam, Latin | complex script |
+| Noto Sans Tamil | `NotoSansTamil-Regular.ttf` | Tamil, Latin | complex script |
+| Noto Sans Devanagari | `NotoSansDevanagari-Regular.ttf` | Devanagari, Latin | complex script |
+| Noto Sans Bengali | `NotoSansBengali-Regular.ttf` | Bengali, Latin | complex script |
+| Noto Sans Telugu | `NotoSansTelugu-Regular.ttf` | Telugu, Latin | complex script |
+| Noto Sans Kannada | `NotoSansKannada-Regular.ttf` | Kannada, Latin | complex script |
+| Noto Sans Gujarati | `NotoSansGujarati-Regular.ttf` | Gujarati, Latin | complex script |
+| Noto Sans Gurmukhi | `NotoSansGurmukhi-Regular.ttf` | Gurmukhi, Latin | complex script |
+
+The standard 12 PDF fonts (Times/Helvetica/Courier) remain available via pdf-lib and need no bytes.
+`fontSupports` uses each bundled font's declared script list; user-imported fonts are parsed for
+metadata (magic bytes + `name` table) and trusted for coverage.
